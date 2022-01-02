@@ -1,0 +1,23 @@
+{
+  "name": "base-js",
+  "version": "1.0.0",
+  "description": "base-js",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rybaknina/base-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rybaknina/base-js/issues"
+  },
+  "homepage": "https://github.com/rybaknina/base-js#readme"
+}
