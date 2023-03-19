@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,7 +16,9 @@ class CategoryController extends Controller
      */
     public function index(): View
     {
-        return view('admin.categories.index');
+        $categories = app(Category::class);
+
+        return view('admin.categories.index', ['categories' => $categories->getAll()]);
     }
 
     /**
