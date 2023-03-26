@@ -19,13 +19,14 @@
             </tr>
             </thead>
             <tbody>
-            @forelse($categories as $categoriesItem)
+            @forelse($categories as $category)
                 <tr>
-                    <td>{{ $categoriesItem->id }}</td>
-                    <td>{{ $categoriesItem->title }}</td>
-                    <td>{{ $categoriesItem->description }}</td>
-                    <td>{{ $categoriesItem->created_at }}</td>
-                    <td><a href="">Ped.</a> &nbsp; | <a href="" class="delete" style="color: red;">Уд.</a></td>
+                    <td>{{ $category->id }}</td>
+                    <td>{{ $category->title }}</td>
+                    <td>{{ $category->description }}</td>
+                    <td>{{ $category->created_at }}</td>
+                    <td><a href="{{ route('admin.categories.edit',  ['category' => $category->id]) }}">Ped.</a> &nbsp; |
+                        <a href="" class="delete" style="color: red;">Уд.</a></td>
                 </tr>
             @empty
                 <tr>

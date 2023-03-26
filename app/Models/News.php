@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\News\StatusEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class News extends Model
 {
@@ -16,17 +16,27 @@ class News extends Model
 
     protected $table = 'news';
 
-    public function getNews(array $columns = ['*']): Collection
+    protected $fillable = [
+        'title',
+        'author',
+        'status',
+        'image',
+        'description',
+    ];
+
+    protected $casts = [
+        'categories_id' => 'array',
+    ];
+
+    public function scopeStatus(Builder $query): Builder
     {
-        return DB::table($this->table)
-            ->join('categories_has_news as chn', 'news.id', '=', 'chn.news_id')
-            ->leftJoin('categories', 'chn.categories_id', '=', 'categories.id')
-            ->select('news.*', 'categories.title as category_title')
-            ->get($columns);
+        return $query->where('status', StatusEnum::DRAFT->value)
+            ->orWhere('status', StatusEnum::PUBLISHED->value);
     }
 
-    public function getNewsById(int $id, array $columns = ['*']): ?Builder
+    public function categories(): BelongsToMany
     {
-        return DB::table($this->table)->find($id, $columns);
+        return $this->belongsToMany(Category::class, 'categories_has_news',
+            'news_id', 'categories_id', 'id', 'id');
     }
 }
