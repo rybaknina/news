@@ -12,6 +12,15 @@
         <form method="post" action="{{ route('admin.news.store') }}">
             @csrf
             <div class="form-group">
+                <label for="category_id">Выбрать категорию</label>
+                <select class="form-control" name="category_id" id="category_id">
+                    <option value="0">Выбрать</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" @if((int)old('category_id') === $category->id) selected @endif>{{ $category->title }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="title">Заголовок</label>
                 <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}">
             </div>
@@ -22,9 +31,10 @@
             <div class="form-group">
                 <label for="status">Статус</label>
                 <select class="form-control" name="status" id="status">
-                    <option @if(old('status') === 'ACTIVE') selected @endif>ACTIVE</option>
+                    <option @if(old('status') === 'PUBLISHED') selected @endif>PUBLISHED</option>
                     <option @if(old('status') === 'DRAFT') selected @endif>DRAFT</option>
                     <option @if(old('status') === 'BLOCKED') selected @endif>BLOCKED</option>
+                    <option @if(old('status') === 'DELETED') selected @endif>DELETED</option>
                 </select>
             </div>
             <div class="form-group">
