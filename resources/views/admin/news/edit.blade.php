@@ -9,23 +9,25 @@
                 <x-alert type="danger" :message="$error"></x-alert>
             @endforeach
         @endif
-
+        @include('messages')
         <form method="post" action="{{ route('admin.news.update', ['news' => $news]) }}" enctype="multipart/form-data">
             @csrf
             @method('put')
-            <div class="form-group">
-                <label for="category_id">Выбрать категорию</label>
-                <select class="form-control" name="category_id" id="category_id">
-                    <option value="0">Выбрать</option>
-                    @foreach($categories as $category)
-                        <option value="{{ $category->id }}" @if($news->categories_id === $category->id) selected @endif>{{ $category->title }}</option>
-                    @endforeach
-                </select>
-            </div>
+
             <div class="form-group">
                 <label for="title">Заголовок</label>
                 <input type="text" id="title" name="title" value="{{ $news->title }}" class="form-control">
             </div>
+            <div class="form-group">
+                <label for="categories">Выбрать категорию</label>
+                <select class="form-control" name="categories[]" multiple>
+                    <option value="0">Выбрать</option>
+                    @foreach($categories as $category)
+                        <option @if(in_array($category->id, $news->categories->pluck('id')->toArray())) selected @endif value="{{ $category->id }}">{{ $category->title }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="author">Автор</label>
                 <input type="text" id="author" name="author" value="{{ $news->author }}" class="form-control">
