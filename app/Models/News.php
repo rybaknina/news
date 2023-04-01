@@ -25,7 +25,7 @@ class News extends Model
     ];
 
     protected $casts = [
-        'categories_id' => 'array',
+        'isVisible' => 'boolean',
     ];
 
     public function scopeStatus(Builder $query): Builder
@@ -37,6 +37,6 @@ class News extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'categories_has_news',
-            'news_id', 'categories_id', 'id', 'id');
+            'news_id', 'categories_id');
     }
 }
