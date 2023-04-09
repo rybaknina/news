@@ -14,6 +14,7 @@
                 <th>#ID</th>
                 <th>Категория</th>
                 <th>Заголовок</th>
+                <th>Изображение</th>
                 <th>Автор</th>
                 <th>Статус</th>
                 <th>Описание</th>
@@ -27,6 +28,7 @@
                     <td>{{ $news->id }}</td>
                     <td>{{ $news->categories->pluck('title')->implode(",  ") }}</td>
                     <td>{{ $news->title }}</td>
+                    <td><img src="{{ Storage::disk('public')->url($news->image) }}" style="width: 280px"></td>
                     <td>{{ $news->author }}</td>
                     <td>{{ $news->status }}</td>
                     <td>{{ $news->description }}</td>

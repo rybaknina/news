@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\News;
 use App\Queries\NewsQueryBuilder;
 use App\Queries\CategoriesQueryBuilder;
+use App\Services\UploadService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Resources\Json\ResourceResponse;
@@ -83,10 +84,15 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Edit $request, News $news, NewsQueryBuilder $builder)
+    public function update(Edit $request, News $news, NewsQueryBuilder $builder, UploadService $uploadService)
     {
-        if ($builder->update($news, \request()
-            ->only('title', 'author', 'status', 'image', 'description'))) {
+        $validated = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $uploadService->uploadImage($request->file('image'));
+        }
+
+        if ($builder->update($news, $validated)) {
             return redirect()->route('admin.news.index')
                 ->with('success', 'Запись успешно обновлена');
         }
