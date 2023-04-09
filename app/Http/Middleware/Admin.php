@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Admin
 {
@@ -14,11 +15,11 @@ class Admin
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = \Auth::user();
-
+        $user = Auth::user();
         if ($user->is_admin === false) {
-            \abort(404);
+            abort(404);
         }
+
         return $next($request);
     }
 }
